@@ -7,7 +7,7 @@ Tip: use the console to make sure this is returning the expected output before m
 Write a function that plays a single round of Rock Paper Scissors. The function should take two parameters - 
 the playerSelection and computerSelection - and then return a string that declares the winner of the round like so: "You Lose! Paper beats Rock"
 Make your function’s playerSelection parameter case-insensitive (so users can input rock, ROCK, RocK or any other variation).
-Account for TIES by re-playing the round.
+Account for TIES by re-playing the round. 
 
 */
 
@@ -23,16 +23,19 @@ function getComputerChoice(){
 
 function playRound(playerSelection, computerSelection){
 
-    if(playerSelection.toUpperCase() == "ROCK"){
+    if(playerSelection.toUpperCase() == computerSelection.toUpperCase()){ //if there is a tie
+        console.log("It's a tie! Let's play again.");
+        computerSelection = getComputerChoice();
+        return playRound(playerSelection, computerSelection);
+    }
+
+    else if(playerSelection.toUpperCase() == "ROCK"){
 
         if(computerSelection == "Paper"){
             return(0)
         }
         else if(computerSelection == "Scissors"){
             return(1)
-        }
-        else if(computerSelection == "Rock"){
-            return(99)
         }
     }
 
@@ -45,9 +48,6 @@ function playRound(playerSelection, computerSelection){
         else if(computerSelection == "Scissors"){
             return(3)
         }
-        else if(computerSelection == "PAPER"){
-            return(99)
-        }
     }
 
     else if(playerSelection.toUpperCase() == "SCISSORS"){
@@ -58,38 +58,36 @@ function playRound(playerSelection, computerSelection){
         else if(computerSelection == "Paper"){
             return(5)
         }
-        else if(computerSelection == "SCISSORS"){
-            return(99)
-        }
     }
 
 }
 
 
+function game() {
+    for (let i = 1; i < 6; i++) {
+        console.log("Round " + i + '!');
+        let valueComp = getComputerChoice();
+        let valueHuman = prompt("Rock? Paper? or Scissors?");
+        let result = playRound(valueHuman, valueComp);
 
-function game(){
-    let human, computer;
-    for(let i = 1; i < 6; i++){
-        console.log("Round " + i + '!')
-        valueComp = getComputerChoice();
-        let valueHuman = prompt("Rock? Paper? or Scissors?")
-        if(playRound(valueHuman, valueComp) == 0)
-            console.log("You Lose! Paper beats Rock")
-        else if(playRound(valueHuman, valueComp) == 1)
-            console.log("You Win! Rock beats Scissors")
-        else if(playRound(valueHuman, valueComp) == 2)
-            console.log("You Win! Paper beats Rock")
-        else if(playRound(valueHuman, valueComp) == 3)
-            console.log("You Lose! Scissors beats Paper")
-        else if(playRound(valueHuman, valueComp) == 4)
-            console.log("You Lose! Rock beats Scissors")
-        else if(playRound(valueHuman, valueComp) == 5)
-            console.log("You Win! Scissors beats Paper")
-        else if (playRound(valueHuman, valueComp) == 99){
-            valueComp = getComputerChoice();
-            playRound(valueHuman, valueComp);
+        if (result == 0)
+            console.log("You Lose! Paper beats Rock");
+        else if (result == 1)
+            console.log("You Win! Rock beats Scissors");
+        else if (result == 2)
+            console.log("You Win! Paper beats Rock");
+        else if (result == 3)
+            console.log("You Lose! Scissors beats Paper");
+        else if (result == 4)
+            console.log("You Lose! Rock beats Scissors");
+        else if (result == 5)
+            console.log("You Win! Scissors beats Paper");
+        else {
+            console.log("error: idk");
+            console.log("computer value = " + valueComp + "    Human input: " + valueHuman);
         }
     }
 }
 
-console.log(game())
+game();
+
